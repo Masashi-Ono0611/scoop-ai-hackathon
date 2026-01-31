@@ -1,474 +1,100 @@
-# 🚀 SpoonOS Core Developer Framework(SCDF)
+# Onchain Life (PHR On-Chain)
 
-<div align="center">
-  <img src="logo/spoon.gif" alt="SpoonAI Logo" width="200"/>
-  <p><strong>Core developer framework of SpoonOS ——Agentic OS for the sentient economy. Next-Generation AI Agent Framework | Powerful Interactive CLI | Web3 infrastructure optimized Support</strong></p>
-</div>
+Personal Health Records anchored to Base Sepolia with an LLM summary.
 
-<div align="center">
-<a href="https://deepwiki.com/XSpoonAi/spoon-core"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
-<a href="https://zread.ai/XSpoonAi/spoon-core"><img src="https://img.shields.io/badge/Ask_Zread-_.svg?style=flat&color=00b0aa&labelColor=000000&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQuOTYxNTYgMS42MDAxSDIuMjQxNTZDMS44ODgxIDEuNjAwMSAxLjYwMTU2IDEuODg2NjQgMS42MDE1NiAyLjI0MDFWNC45NjAxQzEuNjAxNTYgNS4zMTM1NiAxLjg4ODEgNS42MDAxIDIuMjQxNTYgNS42MDAxSDQuOTYxNTZDNS4zMTUwMiA1LjYwMDEgNS42MDE1NiA1LjMxMzU2IDUuNjAxNTYgNC45NjAxVjIuMjQwMUM1LjYwMTU2IDEuODg2NjQgNS4zMTUwMiAxLjYwMDEgNC45NjE1NiAxLjYwMDFaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00Ljk2MTU2IDEwLjM5OTlIMi4yNDE1NkMxLjg4ODEgMTAuMzk5OSAxLjYwMTU2IDEwLjY4NjQgMS42MDE1NiAxMS4wMzk5VjEzLjc1OTlDMS42MDE1NiAxNC4xMTM0IDEuODg4MSAxNC4zOTk5IDIuMjQxNTYgMTQuMzk5OUg0Ljk2MTU2QzUuMzE1MDIgMTQuMzk5OSA1LjYwMTU2IDE0LjExMzQgNS42MDE1NiAxMy43NTk5VjExLjAzOTlDNS42MDE1NiAxMC42ODY0IDUuMzE1MDIgMTAuMzk5OSA0Ljk2MTU2IDEwLjM5OTlaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik0xMy43NTg0IDEuNjAwMUgxMS4wMzg0QzEwLjY4NSAxLjYwMDEgMTAuMzk4NCAxLjg4NjY0IDEwLjM5ODQgMi4yNDAxVjQuOTYwMUMxMC4zOTg0IDUuMzEzNTYgMTAuNjg1IDUuNjAwMSAxMS4wMzg0IDUuNjAwMUgxMy43NTg0QzE0LjExMTkgNS42MDAxIDE0LjM5ODQgNS4zMTM1NiAxNC4zOTg0IDQuOTYwMVYyLjI0MDFDMTQuMzk4NCAxLjg4NjY0IDE0LjExMTkgMS42MDAxIDEzLjc1ODQgMS42MDAxWiIgZmlsbD0iI2ZmZiIvPgo8cGF0aCBkPSJNNCAxMkwxMiA0TDQgMTJaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00IDEyTDEyIDQiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K&logoColor=ffffff" alt="Ask Zread"></a>
-</div>
+## Overview
+- Collect Weight / Blood Pressure / Steps
+- Generate a concise English summary via OpenAI GPT-4.1
+- Anchor the health data hash to Base Sepolia (PHRRegistry)
+- Display tx hash + BaseScan link on the frontend
 
-<div align="center">
-<!-- Keep these links. Translations will automatically update with the README. -->
-<a href="https://zdoc.app/de/XSpoonAi/spoon-core">Deutsch</a> |
-<a href="https://zdoc.app/en/XSpoonAi/spoon-core">English</a> |
-<a href="https://zdoc.app/es/XSpoonAi/spoon-core">Español</a> |
-<a href="https://zdoc.app/fr/XSpoonAi/spoon-core">français</a> |
-<a href="https://zdoc.app/ja/XSpoonAi/spoon-core">日本語</a> |
-<a href="https://zdoc.app/ko/XSpoonAi/spoon-core">한국어</a> |
-<a href="https://zdoc.app/pt/XSpoonAi/spoon-core">Português</a> |
-<a href="https://zdoc.app/ru/XSpoonAi/spoon-core">Русский</a> |
-<a href="https://zdoc.app/zh/XSpoonAi/spoon-core">中文</a>
-</div>
+## Tech Stack
+- Frontend: Next.js 14 (App Router), TypeScript, TailwindCSS, RainbowKit + wagmi, Recharts, Framer Motion
+- Backend: FastAPI (Python), spoon-ai-sdk (PHRAgent + ChatBot), Web3.py
+- Chain: Base Sepolia, Hardhat (Solidity) with PHRRegistry
 
-## 📘 How to Use This README
+## Project Structure
+- `backend/` FastAPI + PHRAgent + anchor logic
+- `web/` Next.js frontend (WalletConnect, charts, UI)
+- `contracts/` Hardhat project (PHRRegistry + scripts)
 
-This README is your guide to getting started with the **SpoonOS Core Developer Framework (SCDF)**. It walks you through everything you need—from understanding core capabilities to actually running your own agents.
+## Environment Variables
 
-Here's how to navigate it:
-
-- [✨ Features](#features): Start here to understand what SpoonOS can do. This section gives you a high-level overview of its agentic, composable, and interoperable architecture.
-
-- [🔧 Installation](#installation): As of **June 2025**, SpoonOS currently supports **Python only**. This section tells you which Python version to use and how to set up a virtual environment.
-
-- [🔐 Environment & API Key Config](#environment-variables-and-api-key-Configuration): Learn how to configure the API keys for various LLMs (e.g., OpenAI, Claude, deepseek). We also provide configuration methods for Web3 infrastructure such as chains, RPC endpoints, databases, and blockchain explorers.
-
-- [🚀 Quick Start](#quick-start): Once your environment is ready, start calling our **MCP server**, which bundles a wide range of tools. Other servers are also available.
-
-- [🛠️ CLI Tools](#cli-tools): This section shows how to use the CLI to run LLM-powered tasks with ease.
-
-- [🧩 Agent Framework](#agent-framework): Learn how to create your own agents, register custom tools, and extend SpoonOS with minimal setup.
-
-- [📊 Enhanced Graph System](#enhanced-graph-system): Discover the powerful graph-based workflow orchestration system for complex AI agent workflows.
-
-- [🔌 API Integration](#api-integration): Plug in external APIs to enhance your agent workflows.
-
-- [🤝 Contributing](#contributing): Want to get involved? Check here for contribution guidelines.
-
-- [📄 License](#license): Standard license information.
-
-By the end of this README, you'll not only understand what SCDF is—but you'll be ready to build and run your own AI agents and will gain ideas on scenarios what SCDF could empower. **Have fun!**
-
-## Features
-
-SpoonOS is a living, evolving agentic operating system. Its SCDF is purpose-built to meet the growing demands of Web3 developers — offering a complete toolkit for building sentient, composable, and interoperable AI agents.
-
-- **🧠 ReAct Intelligent Agent** - Advanced agent architecture combining reasoning and action
-- **🔧 Custom Tool Ecosystem** - Modular tool system for easily extending agent capabilities
-- **💬 Multi-Model Support** - Compatible with major large language models including OpenAI, Anthropic, DeepSeek, and more Web3 fine-tuned LLM
-- **🏗️ Unified LLM Architecture** - Extensible provider system with automatic fallback, load balancing, and comprehensive monitoring
-- **📊 Enhanced Graph System** - Workflow orchestration with state management, multi-agent coordination, and human-in-the-loop patterns
-- **⚡ Prompt Caching** - Intelligent caching for Anthropic models to reduce token costs and improve response times
-- **🌐 Web3-Native Interoperability** - Enables AI agents to communicate and coordinate across ecosystems via DID and ZKML-powered interoperability protocols.
-- **🔌 MCP (Model Context Protocol)** – Dynamic, protocol-driven tool invocation system. Agents can discover and execute tools at runtime over `stdio`, `http`, or `websocket` transports — without hardcoding or restarts.
-- **📡 Scalable Data Access** – Combined with MCP, agents gain seamless access to structured/unstructured data, including databases, Web3 RPCs, external APIs, and more.
-- **💻 Interactive CLI** - Feature-rich command line interface
-- **🔄 State Management** - Comprehensive session history and state persistence
-- **🔗Composable Agent Logic** - Create agents that can sense, reason, plan, and execute modularly — enabling use cases across DeFi, creator economy, and more
-- **🚀 Easy to Use** - Well-designed API for rapid development and integration
-- **🪙 x402 Payment Rails** - Native x402 facilitator client, agent tools, CLI helpers, and FastAPI gateway for paywalled agent actions
-
-## ⚙️ Quick Installation
-
-### Prerequisites
-
-- Python 3.12+
-- pip package manager (or uv as a faster alternative)
-
-```bash
-# Clone the repo
-$ git clone https://github.com/XSpoonAi/spoon-core.git
-$ cd spoon-core
-
-# Create a virtual environment
-$ python -m venv spoon-env
-$ source spoon-env/bin/activate  # For macOS/Linux
-
-# Install dependencies
-$ pip install -r requirements.txt
+### Frontend (`web/.env.local`)
+```
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your_wallet_connect_project_id
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ```
 
-Prefer `uv` for a faster, reproducible install?
-
-```bash
-# Install dependencies with uv (recommended)
-$ uv pip install -r requirements.txt
-# Editable install for local development
-$ uv pip install -e .
+### Backend (`backend/.env`)
+```
+OPENAI_API_KEY=sk-...
+TAVILY_API_KEY=tvly-...
+USE_MOCK_BLOCKCHAIN=false
+BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
+PHR_REGISTRY_ADDRESS=0xE31DF5c55d0603e4685e3881c8e693dCCe745D94
+BACKEND_WALLET_ADDRESS=0x08D811A358850892029251CcC8a565a32fd2dCB8
+BACKEND_PRIVATE_KEY=0x1b45cb70a4fe00bf71898a82ec646f78c234034b296d4d827e87655b495b4da2
 ```
 
-## 🔐 Configuration Setup
-
-> **Note (Nov 2025):** When you import `spoon_ai` directly in Python, configuration is read from environment variables (including `.env`). The interactive CLI / `spoon-cli` tooling is what reads `config.json` and exports those values into the environment for you.
-
-SpoonOS uses a unified configuration system that supports multiple setup methods. Choose the one that works best for your workflow:
-
-### Method 1: Environment Variables (.env file) - Recommended
-
-Create a `.env` file in the root directory:
-
-```bash
-cp .env.example .env
+### Contracts (`contracts/.env`)
+```
+BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
+PRIVATE_KEY=0x1b45cb70a4fe00bf71898a82ec646f78c234034b296d4d827e87655b495b4da2
+BASESCAN_API_KEY=your_basescan_api_key_here
 ```
 
-Fill in your API keys:
+## Setup
 
+### Backend
 ```bash
-# LLM Provider Keys
-OPENAI_API_KEY=sk-your-openai-key
-ANTHROPIC_API_KEY=sk-your-claude-key
-DEEPSEEK_API_KEY=your-deepseek-key
-GEMINI_API_KEY=your-gemini-api-key
-
-# Web3 Configuration
-PRIVATE_KEY=your-wallet-private-key
-RPC_URL=https://mainnet.rpc
-CHAIN_ID=12345
-
-# Turnkey SDK Configuration
-TURNKEY_BASE_URL=https://api.turnkey.com
-TURNKEY_API_PUBLIC_KEY=your-turnkey-public-key
-TURNKEY_API_PRIVATE_KEY=your-turnkey-private-key-hex
-TURNKEY_ORG_ID=your-turnkey-organization-id
-
-# Tool-specific Keys
-TAVILY_API_KEY=your-tavily-api-key
-OKX_API_KEY=your-okx-api-key
-OKX_SECRET_KEY=your-okx-secret-key
-OKX_API_PASSPHRASE=your-okx-passphrase
-```
-
-Then load it in your Python entry file:
-
-```python
-from dotenv import load_dotenv
-load_dotenv(override=True)
-```
-
-## 🪙 x402 Payments
-
-SpoonOS now ships with a first-class x402 integration, letting agents pay for external services and expose their own paywalled endpoints.
-
-### 1. Configure credentials
-
-Add the following entries to `.env` (or export them in your shell):
-
-```bash
-X402_AGENT_PRIVATE_KEY=0xyour-agent-wallet-private-key
-X402_RECEIVER_ADDRESS=0xwallet-that-receives-fees
-X402_FACILITATOR_URL=https://x402.org/facilitator
-X402_DEFAULT_ASSET=0xa063B8d5ada3bE64A24Df594F96aB75F0fb78160  # USDC on Base Sepolia
-X402_DEFAULT_NETWORK=base-sepolia
-X402_DEFAULT_AMOUNT_USDC=0.10
-```
-
-You can override additional values in `config.json` under the new `x402` section (branding, session tokens, per-resource metadata, etc.).
-
-### 2. Use the agent tools
-
-`SpoonReactAI` automatically registers two tools when x402 is configured:
-
-- `x402_create_payment` – generate signed `X-PAYMENT` headers for any resource.
-- `x402_paywalled_request` – negotiate a 402 challenge, sign the payment, and retry the HTTP call automatically.
-
-### 3. Command-line helpers
-
-Use the bundled CLI to inspect requirements, sign headers, or verify incoming requests:
-
-```bash
-uv run python -m spoon_ai.payments.cli requirements
-uv run python -m spoon_ai.payments.cli sign --amount-usdc 0.05 --resource https://api.example.com/data
-uv run python -m spoon_ai.payments.cli verify <base64-header>
-```
-
-### 4. Host a paywalled agent
-
-Run the FastAPI gateway to protect agent invocations with x402:
-
-```bash
-uv run python -m spoon_ai.payments.app
-```
-
-This exposes:
-- `GET /x402/requirements` – discover supported payment requirements.
-- `POST /x402/invoke/{agent_name}` – pay-to-invoke endpoint that verifies and settles headers, then forwards prompts to your agent. Successful responses include an `X-PAYMENT-RESPONSE` header containing the settlement receipt.
-
-Check `examples/x402_agent_demo.py` for an end-to-end walkthrough.
-
-### Method 2: CLI Configuration
-
-Start the CLI and configure interactively:
-
-```bash
+cd backend
+python -m venv ../.venv
+source ../.venv/bin/activate
+pip install -r requirements.txt
 python main.py
-
-# Configure API keys
-> config api_key openai sk-your-openai-key
-> config api_key anthropic sk-your-claude-key
-
-# View current configuration
-> config
+# Runs at http://localhost:8000
 ```
 
-### Method 3: CLI `config.json` (optional)
-
-For CLI workflows (including `python main.py` and `spoon-cli`), you can create or edit a `config.json` file that the CLI layer reads and then exports into environment variables. Core Python code still uses environment variables only.
-
-```json
-{
-  "api_keys": {
-    "openai": "sk-your-openai-key",
-    "anthropic": "sk-your-claude-key"
-  },
-  "default_agent": "trading_agent",
-  "agents": {
-    "trading_agent": {
-      "class": "SpoonReactMCP",
-      "tools": [
-        {
-          "name": "tavily-search",
-          "type": "mcp",
-          "enabled": true,
-          "mcp_server": {
-            "command": "npx",
-            "args": ["--yes", "tavily-mcp"],
-            "env": {"TAVILY_API_KEY": "your-tavily-key"}
-          }
-        },
-        {
-          "name": "crypto_powerdata_cex",
-          "type": "builtin",
-          "enabled": true,
-          "env": {
-            "OKX_API_KEY": "your-okx-key",
-            "OKX_SECRET_KEY": "your-okx-secret",
-            "OKX_API_PASSPHRASE": "your-okx-passphrase",
-            "OKX_PROJECT_ID": "your-okx-project-id"
-          }
-        }
-      ]
-    }
-  }
-}
+### Frontend
+```bash
+cd web
+pnpm install
+pnpm dev
+# Runs at http://localhost:3000
 ```
 
-📖 **[Complete Configuration Guide](doc/configuration.md)**
-
-### Configuration Priority
-
-SpoonOS uses a split configuration model:
-
-- **Core SDK (Python imports of `spoon_ai`)**: reads only environment variables (including `.env`).
-- **CLI layer (main.py / spoon-cli)**: reads `config.json`, then materializes values into environment variables before invoking the SDK.
-
-### Tool Configuration
-
-SpoonOS supports two main tool types:
-
-- **MCP Tools**: External tools via Model Context Protocol (e.g., web search, GitHub)
-- **Built-in Tools**: Native SpoonOS tools (e.g., crypto data, blockchain analysis)
-
-Example agent with both tool types:
-
-```json
-{
-  "agents": {
-    "my_agent": {
-      "class": "SpoonReactMCP",
-      "tools": [
-        {
-          "name": "tavily-search",
-          "type": "mcp",
-          "mcp_server": {
-            "command": "npx",
-            "args": ["--yes", "tavily-mcp"],
-            "env": {"TAVILY_API_KEY": "your-key"}
-          }
-        },
-        {
-          "name": "crypto_powerdata_cex",
-          "type": "builtin",
-          "enabled": true,
-          "env": {
-            "OKX_API_KEY": "your_okx_api_key",
-            "OKX_SECRET_KEY": "your_okx_secret_key",
-            "OKX_API_PASSPHRASE": "your_okx_api_passphrase",
-            "OKX_PROJECT_ID": "your_okx_project_id"
-          }
-      ]
-    }
-  }
-}
+### Contracts
+```bash
+cd contracts
+npm install
+npm run compile
+npm run deploy:baseSepolia   # deploys PHRRegistry
+# Deployed address (current): 0xE31DF5c55d0603e4685e3881c8e693dCCe745D94
 ```
 
-## 🏗️ Unified LLM Architecture
+## Usage Flow
+1) Connect wallet (RainbowKit)
+2) Enter Weight / Blood Pressure / Steps (defaults: 65, 120/80, 8000)
+3) Submit → FastAPI calls LLM (GPT-4.1) for a short English summary
+4) Backend hashes the data and calls `anchorData` on PHRRegistry (Base Sepolia)
+5) Frontend shows the summary + tx hash + BaseScan link, charts update
 
-SpoonOS features a unified LLM infrastructure that provides seamless integration with multiple providers, automatic fallback mechanisms, and comprehensive monitoring.
+## Contract
+- `contracts/contracts/PHRRegistry.sol`
+- Function: `anchorData(bytes32 _dataHash)` emits `HealthDataAnchored`
+- Explorer: https://sepolia.basescan.org/address/0xE31DF5c55d0603e4685e3881c8e693dCCe745D94
 
-### Key Benefits
+## Testing
+- Frontend/Backend: manual E2E via http://localhost:3000 → http://localhost:8000
+- Ensure Base Sepolia wallet has test ETH for gas
 
-- **Provider Agnostic**: Switch between OpenAI, Anthropic, Gemini, and custom providers without code changes
-- **Automatic Fallback**: Built-in fallback chains ensure high availability
-- **Load Balancing**: Distribute requests across multiple provider instances
-- **Comprehensive Monitoring**: Request logging, performance metrics, and error tracking
-- **Easy Extension**: Add new providers with minimal code
-
-### Basic Usage
-
-```python
-import asyncio
-from spoon_ai.llm import LLMManager, ConfigurationManager
-
-
-async def main():
-    # Initialize the LLM manager
-    config_manager = ConfigurationManager()
-    llm_manager = LLMManager(config_manager)
-
-    # Simple chat request (uses default provider)
-    response = await llm_manager.chat(
-        [{"role": "user", "content": "Hello, world!"}]
-    )
-    print(response.content)
-
-    # Use specific provider
-    response = await llm_manager.chat(
-        messages=[{"role": "user", "content": "Hello!"}],
-        provider="anthropic",
-    )
-
-    # Chat with tools
-    tools = [{"name": "get_weather", "description": "Get weather info"}]
-    response = await llm_manager.chat_with_tools(
-        messages=[{"role": "user", "content": "What's the weather?"}],
-        tools=tools,
-        provider="openai",
-    )
-    print(response.content)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-
-### Turnkey SDK Usage
-
-For blockchain key management and secure transaction signing:
-
-```python
-from spoon_ai.turnkey import Turnkey
-
-# Initialize Turnkey client (requires TURNKEY_* env vars)
-client = Turnkey()
-
-# Sign an EVM transaction
-result = client.sign_evm_transaction(
-    sign_with="0x_your_wallet_address",
-    unsigned_tx="0x_unsigned_transaction_hex"
-)
-
-# Sign a message
-result = client.sign_message(
-    sign_with="0x_your_wallet_address",
-    message="Hello Turnkey!"
-)
-```
-
-See `examples/turnkey/` for complete usage examples.
-
-### Provider Configuration
-
-In CLI workflows you can configure providers in the CLI `config.json` (the CLI will export these values into environment variables before invoking the SDK). For pure SDK usage, set the corresponding environment variables instead of relying on `config.json`:
-
-```json
-{
-  "llm_providers": {
-    "openai": {
-      "api_key": "sk-your-openai-key",
-      "model": "gpt-4.1",
-      "max_tokens": 4096,
-      "temperature": 0.3
-    },
-    "anthropic": {
-      "api_key": "sk-ant-your-key",
-      "model": "claude-sonnet-4-20250514",
-      "max_tokens": 4096,
-      "temperature": 0.3
-    },
-    "gemini": {
-      "api_key": "your-gemini-key",
-      "model": "gemini-2.5-pro",
-      "max_tokens": 4096
-    }
-  },
-  "llm_settings": {
-    "default_provider": "openai",
-    "fallback_chain": ["openai", "anthropic", "gemini"],
-    "enable_monitoring": true,
-    "enable_caching": true
-  }
-}
-```
-
-### Fallback and Load Balancing
-
-```python
-# Set up fallback chain
-llm_manager.set_fallback_chain(["openai", "anthropic", "gemini"])
-
-# The manager will automatically try providers in order if one fails
-response = await llm_manager.chat([
-    {"role": "user", "content": "Hello!"}
-])
-# If OpenAI fails, it will try Anthropic, then Gemini
-```
-
-### Custom Provider Integration
-
-```python
-from spoon_ai.llm import LLMProviderInterface, register_provider
-
-@register_provider("custom", capabilities=["chat", "completion"])
-class CustomProvider(LLMProviderInterface):
-    async def initialize(self, config):
-        self.api_key = config["api_key"]
-        # Initialize your provider
-
-    async def chat(self, messages, **kwargs):
-        # Implement chat functionality
-        return LLMResponse(
-            content="Custom response",
-            provider="custom",
-            model="custom-model",
-            finish_reason="stop"
-        )
-
-    # Implement other required methods...
-```
-
-### Monitoring and Debugging
-
-```python
-from spoon_ai.llm import get_debug_logger, get_metrics_collector
-
-# Get monitoring instances
-debug_logger = get_debug_logger()
-metrics = get_metrics_collector()
-
-# View provider statistics
-stats = metrics.get_provider_stats("openai")
-print(f"Success rate: {stats['success_rate']:.1f}%")
-print(f"Average response time: {stats['avg_response_time']:.2f}s")
-
-# Get recent logs
-logs = debug_logger.get_recent_logs(limit=10)
+## Notes
+- LLM responses are forced to English and concise (system prompt enforced)
+- `USE_MOCK_BLOCKCHAIN=true` will bypass chain writes and return a fake tx hash
+- UI theme: light/clean (Telegram/iOS-like), charts via Recharts
 for log in logs:
     print(f"{log.timestamp}: {log.provider} - {log.method}")
-```
-
-## Using OpenRouter (Multi-LLM Gateway)
 
 ```python
 from spoon_ai.chat import ChatBot
