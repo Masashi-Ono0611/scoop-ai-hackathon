@@ -53,3 +53,16 @@
 - どのチェーン/ネットワークを使うか（Base mainnet vs testnet）。
 - World ID 連携は必須か任意か。
 - スポンサー技術の優先度（Supabase/Zilliz など）。
+
+## 実装詳細メモ（Agent → SpoonOS → LLM の最重要経路）
+- Agent: `SpoonReactMCP`/`ToolCallAgent` ベースでヘルスデータ要約＋Tx報告を行う。
+- SpoonOS: `ChatBot` が LLM Manager 経由でプロバイダ初期化・フォールバック・メトリクス・エラーハンドリングを実施。
+- LLM 呼び出し: Agent から `agent.run(prompt)` で ChatBot/LLM Manager に渡し、OpenAI (gpt-4.1) を利用。既存デモ `baseline_llm_demo.py` のパターンを流用。
+- MCP/ツール: Tavily MCP を ToolManager に登録し、検索→要約の補強。既存デモ `baseline_mcp_demo.py` のパターンを流用。
+- エラーハンドリング: LLM/ツール呼び出しは try/except でガードし、ヘルス不良や初期化失敗を明示。
+- PHRロジック: プロンプトに「ヘルス指標の要約＋オンチェーンTxハッシュを最後に返す」を明記し、アンカー結果をコンテキストに含めて応答。
+
+## 決定事項
+- チェーン/ネットワーク: **Base Sepolia**（まずはテストネットでアンカー）
+- MCPツール: **Tavily 固定**（検索で情報補強）
+- UI 方針: **Webアプリを目標**（時間が厳しい場合は CLI で先に完成、可能なら簡易Webで表示）
