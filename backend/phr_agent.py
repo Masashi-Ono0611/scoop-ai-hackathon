@@ -21,6 +21,7 @@ class PHRAgent(SpoonReactMCP):
     Do not include the on-chain transaction hash in your summary as it will be provided separately.
     
     IMPORTANT: You must respond in English only. Do not use any other language.
+    Keep the entire response concise (target 80-100 words max).
     """
     
     async def initialize(self):
