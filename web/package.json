@@ -21,9 +21,9 @@
     "wagmi": "^2.18.2"
   },
   "devDependencies": {
-    "@types/node": "20.19.30",
-    "@types/react": "18.3.27",
-    "@types/react-dom": "18.3.7",
+    "@types/node": "20.10.0",
+    "@types/react": "18.2.42",
+    "@types/react-dom": "18.2.19",
     "eslint": "^8",
     "eslint-config-next": "14.2.35",
     "postcss": "^8",

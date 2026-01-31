@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { Activity, Heart, TrendingUp, CheckCircle2, ExternalLink } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
+type HistoryEntry = { weight: number; steps: number; date: string };
+
 export default function Home() {
   const { address, isConnected } = useAccount();
   const [weight, setWeight] = useState("65");
@@ -14,7 +16,7 @@ export default function Home() {
   const [steps, setSteps] = useState("8000");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<{ summary: string; tx_hash: string; explorer_url: string } | null>(null);
-  const [history, setHistory] = useState<Array<{ weight: number; steps: number; date: string }>>([]);
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +49,7 @@ export default function Home() {
       const data = await response.json();
       setResult(data);
       
-      setHistory(prev => [...prev, {
+      setHistory((prev: HistoryEntry[]) => [...prev, {
         weight: parseFloat(weight),
         steps: parseInt(steps),
         date: new Date().toLocaleDateString()
