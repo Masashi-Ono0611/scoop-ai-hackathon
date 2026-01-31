@@ -95,10 +95,19 @@ async def submit_health_data(req: HealthDataRequest):
         )
         
     except ValueError as e:
+        print(f"ValueError: {str(e)}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=400, detail=str(e))
     except ConnectionError as e:
+        print(f"ConnectionError: {str(e)}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=503, detail=f"Blockchain connection error: {str(e)}")
     except Exception as e:
+        print(f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
