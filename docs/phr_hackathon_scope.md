@@ -1,55 +1,55 @@
-# PHR On-Chain Hackathon Scope
+# PHR オンチェーン・ハッカソン スコープ
 
-## Concept
-- Personal Health Records (PHR) as open, on-chain, open-source data for research and verifiable use.
+## コンセプト
+- パーソナルヘルスレコード (PHR) をオンチェーン化し、研究・検証可能なオープンデータにする。
 
-## Problems
-- Health data lives in local DBs; open research access is limited.
-- Insurance or third parties can process data privately and may bias/alter results to their advantage.
+## 課題
+- 健康データがローカルDBに閉じており、オープンな研究利用が難しい。
+- 保険会社などが独自データで処理し、恣意的なバイアスや改ざんが入り得る。
 
-## Proposed Solution (high level)
-- Collect health metrics from iOS/Android (e.g., steps, HR, sleep, weight) and anchor to an EVM L2 (e.g., Base) for integrity and openness.
-- Optionally link with World ID (or similar) for Sybil resistance / uniqueness.
-- Make anchored data queryable (Dune-like) so anyone can analyze/visualize it.
+## 解決策（ハイレベル）
+- iOS/Android のヘルス指標（例: 歩数、心拍、睡眠、体重など）を EVM L2（例: Base）にアンカーし、整合性とオープン性を確保。
+- Sybil耐性・一意性のために World ID 等と任意で紐付け。
+- アンカー済みデータを Dune 的にクエリ・可視化できるようにする。
 
-## Hackathon Scope (time-boxed core experience)
-- Minimal end-to-end flow: **Device data → Agent → SpoonOS → LLM → On-chain anchor → Query/summary**
-- Small slice of data (e.g., daily steps/heart rate) to avoid overbuild.
-- Basic UI/CLI to trigger flow and display on-chain tx hash + summarized insight.
+## ハッカソンスコープ（短期コア体験）
+- 最小 E2E: **デバイスデータ → Agent → SpoonOS → LLM → オンチェーンアンカー → クエリ/サマリ**
+- データは小片（例: 1日の歩数/心拍）に絞り過剰実装を回避。
+- 簡易 UI/CLI で実行し、Tx ハッシュと要約を表示。
 
-## Mandatory Requirements (from event)
-1. **LLM invocation via SpoonOS**
-   - Flow: Agent → SpoonOS → LLM (already validated in examples; reuse pattern).
-2. **Official Spoon tool or MCP use**
-   - Use MCP tool(s) or official tool modules.
-   - Full invocation flow + basic error handling.
-   - References: `spoon_ai/llm`, `spoon_ai/tools`.
+## 必須要件（イベントより）
+1. **SpoonOS 経由の LLM 呼び出し**
+   - フロー: Agent → SpoonOS → LLM（既存デモを流用）。
+2. **公式ツール or MCP 利用**
+   - MCP ツールまたは公式ツールモジュールを使用。
+   - フル呼び出しフロー + 基本的なエラーハンドリング。
+   - 参考: `spoon_ai/llm`, `spoon_ai/tools`。
 
-## Nice-to-have (judging optics / sponsor alignment)
-- Use a sponsor stack where possible (e.g., Supabase for metadata storage, Zilliz for vector search if we do retrieval, Lovable/SHISA.AI for language features).
-- Provide a simple analytics view (charts/table) akin to Dune.
-- World ID integration toggle for uniqueness.
+## Nice to have（審査/スポンサー目線）
+- スポンサー技術の活用（例: Supabase メタデータ、Zilliz ベクター検索、Lovable/SHISA.AI 言語系など）。
+- 簡易な分析ビュー（チャート/テーブル）の提供。
+- World ID 連携のトグル。
 
-## Out of Scope (for this short hack)
-- Full mobile app; instead, use mocked device export or small sample JSON/CSV for ingestion.
-- Large-scale data pipeline or HIPAA-grade privacy controls.
-- Complex insurance premium logic.
+## スコープ外（短期のため割愛）
+- 本格的なモバイルアプリ実装（サンプルJSON/CSV入力で代替）。
+- 大規模パイプラインや HIPAA レベルのプライバシー制御。
+- 複雑な保険料ロジック。
 
-## Technical plan (minimal)
-- **Data ingest**: accept small JSON/CSV of health metrics (steps/HR).
-- **On-chain anchor**: hash + minimal payload to Base (or testnet) via simple contract or existing client.
-- **Query & summarize**: agent asks LLM to summarize anchored data; provide tx hash link.
-- **MCP/tool use**: Tavily MCP for quick info lookup or logging/crypto tool from Spoon toolkit.
-- **Error handling**: try/except around LLM/tool calls, clear error message to user.
+## 技術プラン（最小）
+- **データ取込**: 少量のヘルス指標 JSON/CSV を受け付け。
+- **オンチェーンアンカー**: ハッシュ＋最小ペイロードを Base（またはテストネット）へ、シンプルなコントラクト/クライアント利用。
+- **クエリ＆要約**: Agent が LLM に要約させ、Tx ハッシュリンクを提示。
+- **MCP/ツール**: Tavily MCP で外部情報取得、または Spoon 公式ツール（ログ/クリプト等）。
+- **エラーハンドリング**: LLM/ツール呼び出しを try/except でガードし、明確なメッセージを返す。
 
-## Milestones
-1) Scaffold data ingest + mock sample file.
-2) Wire Agent → SpoonOS → LLM (reuse baseline_llm_demo pattern).
-3) Add MCP/tool call (reuse baseline_mcp_demo pattern) for enrichment/logging.
-4) On-chain anchor minimal payload; return tx hash.
-5) Present summary and tx link in UI/CLI.
+## マイルストーン
+1) 取込スキャフォールド + サンプルファイル準備。
+2) Agent → SpoonOS → LLM 配線（baseline_llm_demo を流用）。
+3) MCP/ツール呼び出し追加（baseline_mcp_demo 流用）で情報補強。
+4) 最小ペイロードをオンチェーンアンカーし、Tx ハッシュ返却。
+5) UI/CLI で要約と Tx リンクを表示。
 
-## Open Questions
-- Which chain/network (Base mainnet vs testnet)?
-- World ID integration: mandatory or optional toggle?
-- Sponsor tie-in priority (Supabase/Zilliz/etc.).
+## オープンクエスチョン
+- どのチェーン/ネットワークを使うか（Base mainnet vs testnet）。
+- World ID 連携は必須か任意か。
+- スポンサー技術の優先度（Supabase/Zilliz など）。
