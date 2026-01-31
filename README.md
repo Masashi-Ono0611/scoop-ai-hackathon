@@ -1,4 +1,4 @@
-# Onchain Life (PHR On-Chain)
+# PHR On-Chain
 
 Personal Health Records anchored to Base Sepolia with an LLM summary.
 
