@@ -11,14 +11,16 @@ from spoon_ai.tools.tool_manager import ToolManager
 class PHRAgent(SpoonReactMCP):
     name: str = "phr_agent"
     system_prompt: str = """
-    あなたはヘルスデータ分析アシスタントです。
-    受け取ったヘルス指標（歩数、心拍数など）を分析し、簡潔に要約してください。
+    You are a health data analysis assistant.
+    Analyze the received health metrics (weight, blood pressure, steps, etc.) and provide a concise summary.
     
-    要約には以下を含めてください：
-    - データの健康的な評価
-    - 簡単なアドバイス（あれば）
+    Your summary should include:
+    - Health assessment of the data
+    - Brief advice (if applicable)
     
-    オンチェーンTxハッシュは別途提供されるため、要約には含めないでください。
+    Do not include the on-chain transaction hash in your summary as it will be provided separately.
+    
+    IMPORTANT: You must respond in English only. Do not use any other language.
     """
     
     async def initialize(self):

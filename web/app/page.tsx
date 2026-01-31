@@ -6,8 +6,9 @@ import { useAccount } from "wagmi";
 
 export default function Home() {
   const { address, isConnected } = useAccount();
+  const [weight, setWeight] = useState("");
+  const [bloodPressure, setBloodPressure] = useState("");
   const [steps, setSteps] = useState("");
-  const [heartRate, setHeartRate] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<{ summary: string; tx_hash: string; explorer_url: string } | null>(null);
 
@@ -28,8 +29,9 @@ export default function Home() {
         body: JSON.stringify({
           wallet_address: address,
           data: {
+            weight: parseFloat(weight),
+            blood_pressure: bloodPressure,
             steps: parseInt(steps),
-            heart_rate: parseInt(heartRate),
           },
         }),
       });
@@ -66,6 +68,39 @@ export default function Home() {
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
+                <label htmlFor="weight" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Weight (kg)
+                </label>
+                <input
+                  type="number"
+                  id="weight"
+                  value={weight}
+                  onChange={(e) => setWeight(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="e.g., 65.5"
+                  step="0.1"
+                  required
+                  disabled={!isConnected}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="bloodPressure" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Blood Pressure (e.g., 120/80)
+                </label>
+                <input
+                  type="text"
+                  id="bloodPressure"
+                  value={bloodPressure}
+                  onChange={(e) => setBloodPressure(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="e.g., 120/80"
+                  required
+                  disabled={!isConnected}
+                />
+              </div>
+
+              <div>
                 <label htmlFor="steps" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Steps (today)
                 </label>
@@ -76,22 +111,6 @@ export default function Home() {
                   onChange={(e) => setSteps(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="e.g., 8200"
-                  required
-                  disabled={!isConnected}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="heartRate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Average Heart Rate (bpm)
-                </label>
-                <input
-                  type="number"
-                  id="heartRate"
-                  value={heartRate}
-                  onChange={(e) => setHeartRate(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., 72"
                   required
                   disabled={!isConnected}
                 />

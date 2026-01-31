@@ -69,11 +69,14 @@ async def submit_health_data(req: HealthDataRequest):
         
         # 2. Build prompt with health data
         prompt = f"""
-        ユーザー {req.wallet_address} のヘルスデータを分析してください：
-        - 歩数: {req.data.get('steps', 'N/A')}
-        - 平均心拍数: {req.data.get('heart_rate', 'N/A')} bpm
+        Please analyze the health data for user {req.wallet_address}:
+        - Weight: {req.data.get('weight', 'N/A')} kg
+        - Blood Pressure: {req.data.get('blood_pressure', 'N/A')}
+        - Steps: {req.data.get('steps', 'N/A')}
+
+        Provide a concise summary with health assessment and advice.
         
-        簡潔に要約し、健康的な評価とアドバイスを提供してください。
+        IMPORTANT: Respond in English only.
         """
         
         # 3. Run Agent (LLM call + optional MCP search)
