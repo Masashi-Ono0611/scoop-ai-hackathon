@@ -3,10 +3,10 @@
 Personal Health Records anchored to Base Sepolia with an LLM summary.
 
 ## Overview
-- Collect Weight / Blood Pressure / Steps from the user
-- Generate a concise English health summary via OpenAI GPT-4.1
+- Collect Weight / Blood Pressure / Steps
+- Generate a concise English summary via OpenAI GPT-4.1
 - Anchor the health data hash to Base Sepolia (PHRRegistry)
-- Show the tx hash + BaseScan link on the frontend
+- Display tx hash + BaseScan link on the frontend
 
 ## Tech Stack
 - Frontend: Next.js 14 (App Router), TypeScript, TailwindCSS, RainbowKit + wagmi, Recharts, Framer Motion
@@ -16,7 +16,7 @@ Personal Health Records anchored to Base Sepolia with an LLM summary.
 ## Project Structure
 - `backend/` FastAPI + PHRAgent + anchor logic
 - `web/` Next.js frontend (WalletConnect, charts, UI)
-- `contracts/` Hardhat project (PHRRegistry contract + scripts)
+- `contracts/` Hardhat project (PHRRegistry + scripts)
 
 ## Environment Variables
 
@@ -74,7 +74,7 @@ npm run deploy:baseSepolia   # deploys PHRRegistry
 ```
 
 ## Usage Flow
-1) Connect wallet (RainbowKit) on the frontend
+1) Connect wallet (RainbowKit)
 2) Enter Weight / Blood Pressure / Steps (defaults: 65, 120/80, 8000)
 3) Submit → FastAPI calls LLM (GPT-4.1) for a short English summary
 4) Backend hashes the data and calls `anchorData` on PHRRegistry (Base Sepolia)
@@ -93,216 +93,8 @@ npm run deploy:baseSepolia   # deploys PHRRegistry
 - LLM responses are forced to English and concise (system prompt enforced)
 - `USE_MOCK_BLOCKCHAIN=true` will bypass chain writes and return a fake tx hash
 - UI theme: light/clean (Telegram/iOS-like), charts via Recharts
-
-- **Core SDK (Python imports of `spoon_ai`)**: reads only environment variables (including `.env`).
-- **CLI layer (main.py / spoon-cli)**: reads `config.json`, then materializes values into environment variables before invoking the SDK.
-
-### Tool Configuration
-
-SpoonOS supports two main tool types:
-
-- **MCP Tools**: External tools via Model Context Protocol (e.g., web search, GitHub)
-- **Built-in Tools**: Native SpoonOS tools (e.g., crypto data, blockchain analysis)
-
-Example agent with both tool types:
-
-```json
-{
-  "agents": {
-    "my_agent": {
-      "class": "SpoonReactMCP",
-      "tools": [
-        {
-          "name": "tavily-search",
-          "type": "mcp",
-          "mcp_server": {
-            "command": "npx",
-            "args": ["--yes", "tavily-mcp"],
-            "env": {"TAVILY_API_KEY": "your-key"}
-          }
-        },
-        {
-          "name": "crypto_powerdata_cex",
-          "type": "builtin",
-          "enabled": true,
-          "env": {
-            "OKX_API_KEY": "your_okx_api_key",
-            "OKX_SECRET_KEY": "your_okx_secret_key",
-            "OKX_API_PASSPHRASE": "your_okx_api_passphrase",
-            "OKX_PROJECT_ID": "your_okx_project_id"
-          }
-      ]
-    }
-  }
-}
-```
-
-## 🏗️ Unified LLM Architecture
-
-SpoonOS features a unified LLM infrastructure that provides seamless integration with multiple providers, automatic fallback mechanisms, and comprehensive monitoring.
-
-### Key Benefits
-
-- **Provider Agnostic**: Switch between OpenAI, Anthropic, Gemini, and custom providers without code changes
-- **Automatic Fallback**: Built-in fallback chains ensure high availability
-- **Load Balancing**: Distribute requests across multiple provider instances
-- **Comprehensive Monitoring**: Request logging, performance metrics, and error tracking
-- **Easy Extension**: Add new providers with minimal code
-
-### Basic Usage
-
-```python
-import asyncio
-from spoon_ai.llm import LLMManager, ConfigurationManager
-
-
-async def main():
-    # Initialize the LLM manager
-    config_manager = ConfigurationManager()
-    llm_manager = LLMManager(config_manager)
-
-    # Simple chat request (uses default provider)
-    response = await llm_manager.chat(
-        [{"role": "user", "content": "Hello, world!"}]
-    )
-    print(response.content)
-
-    # Use specific provider
-    response = await llm_manager.chat(
-        messages=[{"role": "user", "content": "Hello!"}],
-        provider="anthropic",
-    )
-
-    # Chat with tools
-    tools = [{"name": "get_weather", "description": "Get weather info"}]
-    response = await llm_manager.chat_with_tools(
-        messages=[{"role": "user", "content": "What's the weather?"}],
-        tools=tools,
-        provider="openai",
-    )
-    print(response.content)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-
-### Turnkey SDK Usage
-
-For blockchain key management and secure transaction signing:
-
-```python
-from spoon_ai.turnkey import Turnkey
-
-# Initialize Turnkey client (requires TURNKEY_* env vars)
-client = Turnkey()
-
-# Sign an EVM transaction
-result = client.sign_evm_transaction(
-    sign_with="0x_your_wallet_address",
-    unsigned_tx="0x_unsigned_transaction_hex"
-)
-
-# Sign a message
-result = client.sign_message(
-    sign_with="0x_your_wallet_address",
-    message="Hello Turnkey!"
-)
-```
-
-See `examples/turnkey/` for complete usage examples.
-
-### Provider Configuration
-
-In CLI workflows you can configure providers in the CLI `config.json` (the CLI will export these values into environment variables before invoking the SDK). For pure SDK usage, set the corresponding environment variables instead of relying on `config.json`:
-
-```json
-{
-  "llm_providers": {
-    "openai": {
-      "api_key": "sk-your-openai-key",
-      "model": "gpt-4.1",
-      "max_tokens": 4096,
-      "temperature": 0.3
-    },
-    "anthropic": {
-      "api_key": "sk-ant-your-key",
-      "model": "claude-sonnet-4-20250514",
-      "max_tokens": 4096,
-      "temperature": 0.3
-    },
-    "gemini": {
-      "api_key": "your-gemini-key",
-      "model": "gemini-2.5-pro",
-      "max_tokens": 4096
-    }
-  },
-  "llm_settings": {
-    "default_provider": "openai",
-    "fallback_chain": ["openai", "anthropic", "gemini"],
-    "enable_monitoring": true,
-    "enable_caching": true
-  }
-}
-```
-
-### Fallback and Load Balancing
-
-```python
-# Set up fallback chain
-llm_manager.set_fallback_chain(["openai", "anthropic", "gemini"])
-
-# The manager will automatically try providers in order if one fails
-response = await llm_manager.chat([
-    {"role": "user", "content": "Hello!"}
-])
-# If OpenAI fails, it will try Anthropic, then Gemini
-```
-
-### Custom Provider Integration
-
-```python
-from spoon_ai.llm import LLMProviderInterface, register_provider
-
-@register_provider("custom", capabilities=["chat", "completion"])
-class CustomProvider(LLMProviderInterface):
-    async def initialize(self, config):
-        self.api_key = config["api_key"]
-        # Initialize your provider
-
-    async def chat(self, messages, **kwargs):
-        # Implement chat functionality
-        return LLMResponse(
-            content="Custom response",
-            provider="custom",
-            model="custom-model",
-            finish_reason="stop"
-        )
-
-    # Implement other required methods...
-```
-
-### Monitoring and Debugging
-
-```python
-from spoon_ai.llm import get_debug_logger, get_metrics_collector
-
-# Get monitoring instances
-debug_logger = get_debug_logger()
-metrics = get_metrics_collector()
-
-# View provider statistics
-stats = metrics.get_provider_stats("openai")
-print(f"Success rate: {stats['success_rate']:.1f}%")
-print(f"Average response time: {stats['avg_response_time']:.2f}s")
-
-# Get recent logs
-logs = debug_logger.get_recent_logs(limit=10)
 for log in logs:
     print(f"{log.timestamp}: {log.provider} - {log.method}")
-```
-
-## Using OpenRouter (Multi-LLM Gateway)
 
 ```python
 from spoon_ai.chat import ChatBot
